@@ -1,0 +1,47 @@
+version: 2.0
+
+jobs:
+
+  create_docker_image:
+    docker:
+      - image: docker:18.09
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 18.06.0-ce
+
+      - run:
+          name: Docker login
+          command: |
+            echo "Logging into quay with $quay_username.";
+            echo "$quay_token" | docker login -u="${quay_username}" quay.io --password-stdin;
+
+      - run:
+          name: Create Docker image
+          command: |
+            VERSION="$(cat VERSION)";
+            echo "Building provisioner server $VERSION
+            ls -ltr
+            docker build -t quay.io/jeroenmanders/infraxys-provisioning-server:$VERSION .;
+
+      - run:
+          name: Push Docker images
+          command: |
+            VERSION="$(cat VERSION)";
+            echo "Logging into quay with $quay_username.";
+            echo "$quay_token" | docker login -u="${quay_username}" quay.io --password-stdin;
+            docker push quay.io/jeroenmanders/infraxys-provisioning-server:$VERSION;
+
+
+workflows:
+  version: 2
+  create-provisioning-server-image:
+    jobs:
+      - create_docker_image:
+          context: vars
+
+
+
