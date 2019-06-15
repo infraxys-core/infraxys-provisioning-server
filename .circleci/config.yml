@@ -25,7 +25,6 @@ jobs:
             VERSION="$(cat VERSION)";
             export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
             echo "Building provisioner server $FULL_VERSION"
-            ls -ltr
             docker build -t quay.io/jeroenmanders/infraxys-provisioning-server:$FULL_VERSION .;
 
       - run:
