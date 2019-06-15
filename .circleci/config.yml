@@ -31,6 +31,9 @@ jobs:
       - run:
           name: Push Docker images
           command: |
+            id
+            ls -ltr /root
+            ls -ltr /root/.docker
             VERSION="$(cat VERSION)";
             export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
             docker push quay.io/jeroenmanders/infraxys-provisioning-server:$FULL_VERSION;
