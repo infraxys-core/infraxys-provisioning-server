@@ -1,17 +1,15 @@
-from ubuntu:18.04
+from jeroenmanders/infraxys-provisioning-server:ubuntu-base-18.04-latest
 
 maintainer jeroen@manders.be
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y wget perl nmap ftp git python python-setuptools rsync \
-    && apt-get install -y libcurl3 libunwind8 zip apt-transport-https jq software-properties-common \
-    && apt-get install -y vim ruby-full \
+    && apt-get install -y perl nmap python python-setuptools libunwind8 vim ruby-full \
     && add-apt-repository -y ppa:deadsnakes/ppa \
     && apt-get update \
     && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
-    && apt-get install -y nodejs curl
+    && apt-get install -y nodejs
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb \

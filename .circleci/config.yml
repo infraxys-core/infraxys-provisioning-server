@@ -1,0 +1,55 @@
+version: 2.0
+
+jobs:
+
+  create_docker_image:
+    docker:
+      - image: docker:18.09
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+          version: 18.06.0-ce
+
+      - run:
+          name: Docker login
+          command: |
+            echo "Logging into quay with $quay_username.";
+            echo "$quay_token" | docker login -u="${quay_username}" quay.io --password-stdin;
+
+      - run:
+          name: Create Docker image
+          command: |
+            VERSION="$(cat VERSION)";
+            export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
+            echo "Building provisioner server $FULL_VERSION"
+            docker build -t $IMAGE_NAME:$FULL_VERSION .;
+
+      - run:
+          name: Push Docker images
+          command: |
+            VERSION="$(cat VERSION)";
+            export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
+            docker push $IMAGE_NAME:$FULL_VERSION;
+
+            docker tag $IMAGE_NAME:$FULL_VERSION $IMAGE_NAME:$VERSION;
+            docker push $IMAGE_NAME:$VERSION;
+
+            if [ -f "VERSION_LATEST" ]; then
+              VERSION_LATEST="$(cat VERSION_LATEST)";
+              docker tag $IMAGE_NAME:$FULL_VERSION $IMAGE_NAME:$VERSION_LATEST;
+              docker push $IMAGE_NAME:$VERSION_LATEST;
+            fi;
+
+
+workflows:
+  version: 2
+  create-provisioning-server-image:
+    jobs:
+      - create_docker_image:
+          context: vars
+
+
+
