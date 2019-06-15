@@ -23,17 +23,26 @@ jobs:
           name: Create Docker image
           command: |
             VERSION="$(cat VERSION)";
-            echo "Building provisioner server $VERSION
+            export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
+            echo "Building provisioner server $FULL_VERSION"
             ls -ltr
-            docker build -t quay.io/jeroenmanders/infraxys-provisioning-server:$VERSION .;
+            docker build -t quay.io/jeroenmanders/infraxys-provisioning-server:$FULL_VERSION .;
 
       - run:
           name: Push Docker images
           command: |
             VERSION="$(cat VERSION)";
-            echo "Logging into quay with $quay_username.";
-            echo "$quay_token" | docker login -u="${quay_username}" quay.io --password-stdin;
+            export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
+            docker push quay.io/jeroenmanders/infraxys-provisioning-server:$FULL_VERSION;
+
+            docker tag ${IMAGE}:${FULL_VERSION} ${IMAGE}:${VERSION};
             docker push quay.io/jeroenmanders/infraxys-provisioning-server:$VERSION;
+
+            if [ -f "VERSION_LATEST" ]; then
+              VERSION_LATEST="$(cat VERSION_LATEST)";
+              docker tag ${IMAGE}:${FULL_VERSION} ${IMAGE}:${VERSION_LATEST};
+              docker push quay.io/jeroenmanders/infraxys-provisioning-server:$VERSION_LATEST;
+            fi;
 
 
 workflows:
