@@ -1,4 +1,4 @@
-from jeroenmanders/infraxys-provisioning-server:ubuntu-base-18.04-latest
+from quay.io/jeroenmanders/infraxys-provisioning-server:ubuntu-base-18.04-latest
 
 maintainer jeroen@manders.be
 
