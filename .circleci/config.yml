@@ -25,25 +25,22 @@ jobs:
             VERSION="$(cat VERSION)";
             export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
             echo "Building provisioner server $FULL_VERSION"
-            docker build -t quay.io/jeroenmanders/infraxys-provisioning-server:$FULL_VERSION .;
+            docker build -t $IMAGE_NAME:$FULL_VERSION .;
 
       - run:
           name: Push Docker images
           command: |
-            id
-            ls -ltr /root
-            ls -ltr /root/.docker
             VERSION="$(cat VERSION)";
             export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
-            docker push quay.io/jeroenmanders/infraxys-provisioning-server:$FULL_VERSION;
+            docker push $IMAGE_NAME:$FULL_VERSION;
 
-            docker tag ${IMAGE}:${FULL_VERSION} ${IMAGE}:${VERSION};
-            docker push quay.io/jeroenmanders/infraxys-provisioning-server:$VERSION;
+            docker tag $IMAGE_NAME:$FULL_VERSION $IMAGE_NAME:$VERSION;
+            docker push $IMAGE_NAME:$VERSION;
 
             if [ -f "VERSION_LATEST" ]; then
               VERSION_LATEST="$(cat VERSION_LATEST)";
-              docker tag ${IMAGE}:${FULL_VERSION} ${IMAGE}:${VERSION_LATEST};
-              docker push quay.io/jeroenmanders/infraxys-provisioning-server:$VERSION_LATEST;
+              docker tag $IMAGE_NAME:$FULL_VERSION $IMAGE_NAME:$VERSION_LATEST;
+              docker push $IMAGE_NAME:$VERSION_LATEST;
             fi;
 
 
