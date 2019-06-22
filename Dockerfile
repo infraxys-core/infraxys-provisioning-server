@@ -52,9 +52,9 @@ RUN curl -L -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/h
     && cd /tmp && tar -zxvf helm.tar.gz && rm -f helm.tar.gz && mv linux-amd64/helm /usr/local/bin/helm-v2.14.1
 
 RUN curl -L -o /tmp/vault.zip https://releases.hashicorp.com/vault/0.10.0/vault_0.10.0_linux_amd64.zip \
-    && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip \
-    && curl -L -o /tmp/vault.zip https://releases.hashicorp.com/vault/1.1.3/vault_1.1.3_linux_amd64.zip \
     && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip
+#    && curl -L -o /tmp/vault.zip https://releases.hashicorp.com/vault/1.1.3/vault_1.1.3_linux_amd64.zip \
+#    && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip
 
 RUN curl -L -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip \
     && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.9.11 && rm -f terraform.zip \
