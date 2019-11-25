@@ -24,7 +24,7 @@ jobs:
           command: |
             VERSION="$(cat VERSION)";
             export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
-            echo "Building provisioner server $FULL_VERSION"
+            echo "Building provisioner server $IMAGE_NAME:$FULL_VERSION"
             docker build -t $IMAGE_NAME:$FULL_VERSION .;
 
       - run:

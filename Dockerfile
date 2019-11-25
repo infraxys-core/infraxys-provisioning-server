@@ -40,38 +40,28 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add 
 RUN pip install awscli --upgrade --user \ 
     && mv ./root/.local/bin/aws /usr/local/bin
 
-RUN curl -L -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.6.1-linux-amd64.tar.gz \
-    && cd /tmp && tar -zxvf helm.tar.gz && rm -f helm.tar.gz && mv linux-amd64/helm /usr/local/bin/helm-v2.6.1 \
-    && curl -L -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.6.2-linux-amd64.tar.gz \
-    && cd /tmp && tar -zxvf helm.tar.gz && rm -f helm.tar.gz && mv linux-amd64/helm /usr/local/bin/helm-v2.6.2 \
-    && curl -L -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-linux-amd64.tar.gz \
-    && cd /tmp && tar -zxvf helm.tar.gz && rm -f helm.tar.gz && mv linux-amd64/helm /usr/local/bin/helm-v2.11.0 \
-    && curl -L -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.12.1-linux-amd64.tar.gz \
-    && cd /tmp && tar -zxvf helm.tar.gz && rm -f helm.tar.gz && mv linux-amd64/helm /usr/local/bin/helm-v2.12.1 \
-    && curl -L -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.14.1-linux-amd64.tar.gz \
+RUN curl -sL -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.14.1-linux-amd64.tar.gz \
     && cd /tmp && tar -zxvf helm.tar.gz && rm -f helm.tar.gz && mv linux-amd64/helm /usr/local/bin/helm-v2.14.1
 
-RUN curl -L -o /tmp/vault.zip https://releases.hashicorp.com/vault/0.10.0/vault_0.10.0_linux_amd64.zip \
+RUN curl -sL -o /tmp/vault.zip https://releases.hashicorp.com/vault/0.10.0/vault_0.10.0_linux_amd64.zip \
     && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip
-#    && curl -L -o /tmp/vault.zip https://releases.hashicorp.com/vault/1.1.3/vault_1.1.3_linux_amd64.zip \
+#    && curl -sL -o /tmp/vault.zip https://releases.hashicorp.com/vault/1.1.3/vault_1.1.3_linux_amd64.zip \
 #    && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip
 
-RUN curl -L -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip \
+RUN curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip \
     && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.9.11 && rm -f terraform.zip \
-    && curl -L -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
+    && curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
     && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.10.6 && rm -f terraform.zip \
-    && curl -L -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip \
-    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.11.7 && rm -f terraform.zip \
-    && curl -L -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip \
-    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.11.10 && rm -f terraform.zip \
-    && curl -L -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip \
-    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.11.11 && rm -f terraform.zip
+    && curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip \
+    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.11.11 && rm -f terraform.zip \
+    && curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.12/terraform_0.12.12_linux_amd64.zip \
+    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.12.12 && rm -f terraform.zip \
+    && ln -s /usr/local/bin/terraform-0.12.12 /usr/local/bin/terraform
 
-RUN curl -L -o /tmp/packer.zip https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip \
+RUN curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip \
     && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-0.12.3 && rm -f packer.zip \
-    && curl -L -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.3.1/packer_1.3.1_linux_amd64.zip \
-    && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-1.3.1 && rm -f packer.zip \
-    && curl -L -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.4.1/packer_1.4.1_linux_amd64.zip \
-    && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-1.4.1 && rm -f packer.zip
+    && curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.4.4/packer_1.4.4_linux_amd64.zip \
+    && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-1.4.4 && rm -f packer.zip \
+    && ln -s /usr/local/bin/packer-1.4.4 /usr/local/bin/packer
 
 VOLUME /infraxys
