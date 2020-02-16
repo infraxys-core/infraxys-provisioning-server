@@ -58,10 +58,9 @@ RUN curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.9.
     && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.12.12 && rm -f terraform.zip \
     && ln -s /usr/local/bin/terraform-0.12.12 /usr/local/bin/terraform
 
-RUN curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip \
-    && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-0.12.3 && rm -f packer.zip \
-    && curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.4.4/packer_1.4.4_linux_amd64.zip \
+RUN curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.4.4/packer_1.4.4_linux_amd64.zip \
     && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-1.4.4 && rm -f packer.zip \
-    && ln -s /usr/local/bin/packer-1.4.4 /usr/local/bin/packer
+    && curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.5.1/packer_1.5.1_linux_amd64.zip \
+    && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-1.5.1 && rm -f packer.zip
 
 VOLUME /infraxys
