@@ -40,27 +40,15 @@ RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add 
 RUN pip install awscli --upgrade --user \ 
     && mv ./root/.local/bin/aws /usr/local/bin
 
-RUN curl -sL -o /tmp/helm.tar.gz https://storage.googleapis.com/kubernetes-helm/helm-v2.14.1-linux-amd64.tar.gz \
-    && cd /tmp && tar -zxvf helm.tar.gz && rm -f helm.tar.gz && mv linux-amd64/helm /usr/local/bin/helm-v2.14.1
+RUN apt-get install -y ca-certificates apt-transport-https lsb-release gnupg \
+    && curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null \
+    && AZ_REPO=$(lsb_release -cs) \
+    && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | tee /etc/apt/sources.list.d/azure-cli.list \
+    && apt-get update \
+    && apt-get install azure-cli
 
 RUN curl -sL -o /tmp/vault.zip https://releases.hashicorp.com/vault/0.10.0/vault_0.10.0_linux_amd64.zip \
     && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip
-#    && curl -sL -o /tmp/vault.zip https://releases.hashicorp.com/vault/1.1.3/vault_1.1.3_linux_amd64.zip \
-#    && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip
 
-RUN curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.9.11/terraform_0.9.11_linux_amd64.zip \
-    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.9.11 && rm -f terraform.zip \
-    && curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip \
-    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.10.6 && rm -f terraform.zip \
-    && curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip \
-    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.11.11 && rm -f terraform.zip \
-    && curl -sL -o /tmp/terraform.zip https://releases.hashicorp.com/terraform/0.12.12/terraform_0.12.12_linux_amd64.zip \
-    && cd /tmp && unzip terraform.zip && mv terraform /usr/local/bin/terraform-0.12.12 && rm -f terraform.zip \
-    && ln -s /usr/local/bin/terraform-0.12.12 /usr/local/bin/terraform
-
-RUN curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.4.4/packer_1.4.4_linux_amd64.zip \
-    && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-1.4.4 && rm -f packer.zip \
-    && curl -sL -o /tmp/packer.zip https://releases.hashicorp.com/packer/1.5.1/packer_1.5.1_linux_amd64.zip \
-    && cd /tmp && unzip packer.zip && mv packer /usr/local/bin/packer-1.5.1 && rm -f packer.zip
 
 VOLUME /infraxys
