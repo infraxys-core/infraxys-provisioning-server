@@ -47,8 +47,7 @@ RUN apt-get install -y ca-certificates apt-transport-https lsb-release gnupg \
     && apt-get update \
     && apt-get install azure-cli
 
-RUN curl -sL -o /tmp/vault.zip https://releases.hashicorp.com/vault/0.10.0/vault_0.10.0_linux_amd64.zip \
-    && cd /tmp && unzip vault.zip && mv vault /usr/local/bin/ && rm -f vault.zip
+RUN python3.7 -m pip install -U mako==1.1.3
 
 
 VOLUME /infraxys
