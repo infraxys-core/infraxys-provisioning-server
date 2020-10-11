@@ -32,7 +32,7 @@ jobs:
           command: |
             VERSION="$(cat VERSION)";
             export FULL_VERSION="${VERSION}_${CIRCLE_SHA1}_${CIRCLE_BUILD_NUM}";
-            docker push $IMAGE_NAME:$FULL_VERSION;
+            #docker push $IMAGE_NAME:$FULL_VERSION;
 
             docker tag $IMAGE_NAME:$FULL_VERSION $IMAGE_NAME:$VERSION;
             docker push $IMAGE_NAME:$VERSION;
